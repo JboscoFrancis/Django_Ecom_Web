@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+
+{% if wishlist %}
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">Your Wishlist 💗</h3>
+        <p>You can move your wish product to cart any time you want.</p>
+    </div>
+</div>
+<div class="row">
+    {% for wishlist in wishlist %}
+    <div class="col-md-3 mb-1 ">
+        <div class="content-section py-3">
+            <div class="card-body">
+                <div>
+                    <a href="{% url 'detail' wishlist.product.id %}">
+                        <img class="center" id="img1" src="{{wishlist.product.imageURL}}" height="160" width="180" alt="">
+                    </a>
+                    <span id="span1" class="badge bg-{{wishlist.product.setlabel}}">{{wishlist.product.get_category_display}}</span>
+                </div>
+                <div class="py-2">
+                    <p><strong>{{wishlist.product.title}}</strong></p>
+                    {% if wishlist.product.discount%}
+                    <span class="ml-2">Price <strike>${{wishlist.product.price}}</strike></span><br>
+                    <span class="ml-2">Discount ${{wishlist.product.discount}}</span>
+                    {% else%}
+                    <span class="ml-2">Price ${{wishlist.product.price}}</span><br>
+                    <span class="ml-2"></span>
+                    {% endif %}
+                    <br><button data-product="{{wishlist.product.id}}" data-action="addtocart" class="btn btn-sm addToWish mt-2" id="cartbtn"><span id="span1">Add to Cart</span></button>
+                    <button data-product="{{wishlist.product.id}}" data-action="remove" class="btn btn-danger btn-sm addToWish mt-2"><span id="span1">remove</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h3 class="text-center alert alert-warning">No wish product..😢😢</h3>
+{% endif %}
+{% endblock %}

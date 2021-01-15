@@ -1,0 +1,94 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+    #top-row{
+        background-color: #ffba93;
+        padding: 10px;
+        border-radius: 4px;
+
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="search" style="float: right;" id="top-row">
+            <form class="form-inline my-2 my-lg-0">
+                {{filter.form|crispy}}
+                <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
+                <button class="btn btn-outline-success my-2 my-sm-0 ml-4" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>    
+<hr>
+<div class="row" id="top-row">
+    <div class="col-lg-3">
+        
+    </div>
+    <div class="col-lg-6">
+        {% include 'store/slideimage.html' %}
+    </div>
+    <div class="col-lg-3">
+        <h1 class="p-5 text-center alert alert-danger">Promo <br> Product</h1>
+    </div>
+
+</div>
+<div class="row">
+    {% for product in product %}
+    <div class="col-md-3 mb-1 ">
+        <div class="content-section">
+            <div class="card-body">
+                <div>
+                    <a href="{% url 'detail' product.id %}">
+                        <img class="center" id="img1" src="{{product.imageURL}}" height="160" width="180" alt="">
+                    </a>
+                    <span id="span1" class="badge bg-{{product.setlabel}}">{{product.get_category_display}}</span>
+                </div>
+                <div class="py-2">
+                    <p><strong>{{product.title}}</strong></p>
+                    {% if product.discount%}
+                    <span class="ml-2">Price <strike>${{product.price}}</strike></span><br>
+                    <span class="ml-2">Discount ${{product.discount}}</span>
+                    {% else%}
+                    <span class="ml-2">Price ${{product.price}}</span><br>
+                    <span class="ml-2"></span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+ 
+</div>
+
+   <!-- paginator starts-- -->
+{% if product.has_other_pages %}
+<div class="pagination text-center mt-3 center">
+    <span class="step-links text-center">
+        {% if product.has_previous %}
+            <a class="btn btn-outline-info btn-sm" href="?page=1">&laquo; first</a>
+            <a class="btn btn-outline-info btn-sm" href="?page={{ product.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for num in product.paginator.page_range %}
+            {% if product.number == num %}
+                <a class="btn btn-info btn-sm" href="?page={{num}}">{{num}}</a>
+            {% elif num > product.number|add:'-3' and num < product.number|add:'3'   %}
+                <a class="btn btn-outline-info btn-sm" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if product.has_next %}
+            <a class="btn btn-outline-info btn-sm"  href="?page={{ product.next_page_number }}">next</a>
+            <a class="btn btn-outline-info btn-sm"  href="?page={{ product.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+<br>
+{% endblock %}

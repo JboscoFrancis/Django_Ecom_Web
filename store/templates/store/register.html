@@ -1,0 +1,27 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags%}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+        <h3 class="card-header text-center">Customer Registration</h3>
+        <div class="form p-5 ">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div>
+                    {{form|crispy}}
+                </div>
+                <input class="btn btn-primary btn-sm" type="submit" value="Register">
+                <span class="ml-3"><small>Have account? <a href="{% url 'login' %}">Sign In</a></small></span>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

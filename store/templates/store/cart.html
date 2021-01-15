@@ -1,0 +1,83 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <style>
+        #top-row{
+            background-color: #ff8e71;
+            padding: 14px;
+            border-radius: 6px;
+        }
+    </style>
+    {% if items %}
+    <div class="row" id="top-row">
+        <div class="col-lg-6">
+            <div>
+                <h3>Total Cost Amount ${{cartcost}}</h3>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div>
+                <h3>Total Product Item {{cartitems}}</h3>
+            </div>
+        </div>
+    </div><hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="item-align" style="display: flex">
+                <div class="flex" style="flex: 2;"><h3>Your Product List</h3></div>
+                <div class="flex" style="flex: 2;">
+                    <button class="btn btn-outline-warning btn-sm ml-4" style=" float: right;"><a href="{% url 'checkout' %}">checkout</a></button>
+                    <button class="btn btn-outline-primary btn-sm mr-4" style=" float: right;"><a href="{% url 'home' %}">continue to cart</a></button>
+                </div>
+            </div>
+            <div class="cart-row p-2" style="background-color: thistle; border-radius: 4px;">
+                <div style="flex: 1;"><strong>Product</strong></div>
+                <div style="flex: 1;"><strong>Title</strong></div>
+                <div style="flex: 1;"><strong>Category</strong></div>
+                <div style="flex: 1;"><strong>Price</strong></div>
+                <div style="flex: 1;"><strong>Quantity</strong></div>
+                <div style="flex: 1;"><strong>Cost</strong></div>
+                <div style="flex: 1;"><strong>Action</strong></div>
+            </div>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex: 1;"><img src="{{item.product.imageURL}}" width="50" height="50" alt=""></div>
+                <div style="flex: 1;">{{item.product.title}}</div>
+                <div style="flex: 1;">{{item.product.get_category_display}}</div>
+                <div style="flex: 1;">
+                    {% if item.product.discount %}
+                    ${{item.product.discount}}
+                    {% else %}
+                    ${{item.product.price}}
+                    {% endif %}
+                </div>
+                <div style="flex: 1;"><p>{{item.quantity}}</p>
+                    <div>
+                        <button data-product="{{item.product.id}}" data-action="add" class="btn btn-xs cart-btn"><i class="fas fa-sort-up"></i></button>
+                        <button data-product="{{item.product.id}}" data-action="remove" class="btn btn-xs cart-btn"><i class="fas fa-sort-down"></i></button>
+                    </div>
+                </div>
+                <div style="flex: 1;">{{item.items_cost}}</div>
+                <div style="flex: 1;">
+                    <button data-product="{{item.product.id}}" data-action="delete" class="btn btn-warning btn-sm cart-btn">Remove</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div>
+        {% if request.user.is_authenticated %}
+        <h3 class="alert alert-danger text-center">Your Shopping Cart is empty</h3>
+        <img class="" src="{% static 'image/empty.png' %}" width="320" height="300" alt="">
+        <button class="btn btn-primary btn-sm mr-4" style=" float: right;"><a href="{% url 'home' %}"><span id="span1">continue to cart</span></a></button>
+        {% else %}
+        <img class="" src="{% static 'image/empty.png' %}" width="320" height="300" alt="">
+        <h3>Your Shopping Cart is Empty 😜😜 <a href="{% url 'login' %}">Login</a> to add Item to cart</h3>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

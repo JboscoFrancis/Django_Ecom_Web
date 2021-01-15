@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/0fd3fb4178.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <title>Document</title>
+    <script type="text/javascript">
+      var user = '{{request.user}}'
+
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+    </script>
+</head>
+<body>
+  <div class="header-top bg-primary py-0" id="top-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-12 d-flex align-items-center justify-content-between text-white">
+          <div class="d-md-flex align-items-center call-info">
+            <div class="d-flex align-items-center">
+              <div class="text-white offer-text"><small><span id="span1">Welcome</span> !!</small> </div>
+            </div>
+          </div>
+          <div class="d-none d-md-flex align-items-center">
+            <div class="social-icons">
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item"><a class="text-white" href="#"><i class="fab fa-twitter-square"></i></a> </li>
+                <li class="list-inline-item"><a class="text-white" href="https://web.facebook.com/johnbosco.francis.50/"><i class="fab fa-facebook"></i></a> </li>
+                <li class="list-inline-item"><a class="text-white" href="#"><i class="fab fa-instagram"></i></a> </li>
+                <li class="list-inline-item"><a class="text-white" href="#"><i class="fab fa-pinterest"></i></a> </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <p class="align-items-center">Check me on <a style="color: white;" href="https://github.com/JboscoFrancis">github <i class="fab fa-github"></i></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">JBstore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% for userGroup in request.user.groups.all %}
+            {% if userGroup.name == 'AdminUser' %}
+            <button class="btn btn-sm btn-outline-secondary ml-5">
+              <a href="#">AdminUser</a>
+            </button>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="form-inline">
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'image/cart.png' %}" alt="">
+          </a>
+          <p class="mr-3" id="cart-total">{{cartitems}}</p>
+          <a href="{% url 'wish_list' %}">
+              <span class="btn" style="font-size: 22px; color: #fdb827 "><i class="far fa-heart"></i>{{wishcount}}</span>
+          </a>
+          <div class="ml-2">
+            {% if request.user.is_authenticated %}
+            <span class="text-center mr-2 ml-4" style="color: wheat;">Hello <strong>{{user.username}}</strong></span>
+            <a class="mr-2" style="color: rgb(226, 226, 226);" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a class="mr-2"  style="color: rgb(226, 226, 226);" href="{% url 'login' %}">Login</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+      <div class="container-fluid mt-2">
+        {% for message in messages %}
+        <script>
+            swal.fire({
+                text: "{{message}}",
+                icon: "{{message.tags}}"
+            });
+        </script>
+        {% endfor %}
+          {% block content %}
+          {% endblock %}
+      </div>
+<div class="footer">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="text-center">
+        <h3>Our quick Links</h3>
+        <p>Get in touch with us </p>
+        Lets Saves you whatever you need
+        <p><strong>Created By Jbosco, check me on github <a class="bg-secondary" href="https://github.com/JboscoFrancis"><i class="fab fa-github"></i></a></strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript" src="{% static 'js/main.js' %}" ></script>
+
+</body>
+</html>

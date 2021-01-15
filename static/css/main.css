@@ -1,0 +1,84 @@
+body{
+	background-color: #f8f1f1;
+	font-family: 'Times New Roman', Times, serif!important;
+	font-size: 17px;
+}
+#top-header{
+	background-color: salmon!important;
+	font-size: 24;
+}
+.btn-group-xs > .btn, .btn-xs {
+	padding: .25rem .4rem;
+	font-size: .875rem;
+	line-height: .5;
+	border-radius: .2rem;
+}
+#img1:hover{
+	transform: scale(1.1);
+}
+.footer{
+    background-color: #008891;
+	position: relative;
+	bottom: 0;
+	color: white;
+	padding: 10px;
+	margin-top: 5%;
+	width: 100%;
+}
+.bg-light{
+    background-color: #6a097d!important;
+}
+#span1{
+	color: rgb(255, 255, 255);
+}
+#category{
+    display: inline-block;
+    padding-left: 28px;
+    font-size: 18px;
+}
+#cart-icon{
+    width: 40px;
+}
+.content-section{
+    background-color: #f6ecf0;
+}
+
+#cart-total{
+	display: block;
+	text-align: center;
+	color:#fff;
+	background-color: tomato;
+	width: 20px;
+	height: 25px;
+	border-radius: 50%;
+	font-size: 14px;
+}
+.center{
+    display: block;
+    margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+	border-bottom: 1px solid gainsboro;
+}
+.hidden{
+	display: none!important;
+}
+#cartbtn{
+	background-color: blueviolet;
+	border-radius: 8px;
+}
+
+a:hover{
+	color: rosybrown;
+}
+
+strike{
+	color: red;
+}
