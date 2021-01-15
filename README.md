@@ -12,6 +12,6 @@ This is an E-commerce web where a customer can add product to cart, add wish lis
 * login username **Jbosco** password **boscogit2021**, login and enjoy 
 
 **NOTE:** you MUST have **Python** and **Django** installed on your laptop
-Be connected to internet to see all the fontawose icon
+* Be connected to internet to see all the fontawose icon
 
 ***Thanks,** for any advice and comments let me know. if your interested to collaborate with me am ready, be sure to check me out*
